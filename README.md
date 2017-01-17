@@ -29,7 +29,7 @@ The execution of this image is parametrized using environment variables. There a
 
 The most important environment variable used to specify the dump command to ve executed is the `DUMP_COMMAND` variable. This variable is mandatory and **must** contain command that can be executed in the running container. The following example dump a listing of the root directory:
 ```sh
-$ docker run --rm --tty --interactive --env "DUMP_COMMAND=ls -l /" bigtruedata/dump
+docker run --rm --tty --interactive --env "DUMP_COMMAND=ls -l /" bigtruedata/dump
 ```
 
 The next section will show what the ouput of the previous command is used for.
@@ -40,7 +40,7 @@ By default the output of the dump command is redirected to a file in the `/dump`
 
 The following command stores the output of the `ls -l /` command to a file called `listing` in the root directory instead of the default `/dump` directory:
 ```sh
-$ docker run --rm --tty --interactive --env "DUMP_COMMAND=ls -l /" --env "OUTPUT_COMMAND=cat - > /listing" bigtruedata/dump
+docker run --rm --tty --interactive --env "DUMP_COMMAND=ls -l /" --env "OUTPUT_COMMAND=cat - > /listing" bigtruedata/dump
 ```
 
 ### Setting the scheduling format
@@ -49,7 +49,7 @@ The previous sections described the excution and configuration of dump execution
 
 The following command dumps system's date to the default destination every minute:
 ```sh
-$ docker run --rm --tty --interactive --env "TIME_SPEC=* * * * *" --env "DUMP_COMMAND=date" bigtruedata/dump
+docker run --rm --tty --interactive --env "TIME_SPEC=* * * * *" --env "DUMP_COMMAND=date" bigtruedata/dump
 ```
 
 ### Adjusting the time zone of the local clock
@@ -67,5 +67,5 @@ When providing the cipher algorithm, a password is required to properly execute 
 
 The following command outputs the encoded result of the dump usinh the `aes256` algorithm and providing the password `gungus`:
 ```sh
-$ docker run --rm -ti -e "TIME_SPEC=* * * * *" -e "DUMP_COMMAND=date" -e "OUTPUT_COMMAND=cat -" -e "CIPHER_ALGORITHM=aes256" -e "CIPHER_PASSWORD=gungus" bigtruedata/dump:3.5
+docker run --rm -ti -e "TIME_SPEC=* * * * *" -e "DUMP_COMMAND=date" -e "OUTPUT_COMMAND=cat -" -e "CIPHER_ALGORITHM=aes256" -e "CIPHER_PASSWORD=gungus" bigtruedata/dump:3.5
 ```
