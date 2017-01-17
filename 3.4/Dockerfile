@@ -3,6 +3,8 @@
 
 FROM bigtruedata/cron:3.4
 
+RUN apk add --no-cache openssl
+
 COPY dump-entrypoint /usr/local/bin/
 
 VOLUME /dump
