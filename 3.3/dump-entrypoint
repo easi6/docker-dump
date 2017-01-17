@@ -13,7 +13,7 @@ trap exit SIGINT
 trap exit SIGTERM
 
 build_time_spec() {
-  local default_time_spec="@daily"
+  local default_time_spec="0 0 * * *"
 
   TIME_SPEC=${TIME_SPEC:-$default_time_spec}
 }
