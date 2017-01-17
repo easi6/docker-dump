@@ -53,7 +53,7 @@ $ docker run --rm --tty --interactive --env "TIME_SPEC=* * * * *" --env "DUMP_CO
 
 ### Adjusting the time zone of the local clock
 
-I am working in another place whose local time is not UTC, can this image be configured to address that issue? Yes, it can! To change the local time zone, an appropiate value should be set to the `TIME_ZONE` environment variable. The following command will output the local time each minute for a container working in Iran's timezone:
+I am working in another place whose local time is not UTC, can this image be configured to address that issue? Yes, it can! To change the local time zone, an appropiate value should be set to the `TIME_ZONE` environment variable. Those values are provided by the `tzdata` package of the Alpine Linux distribution and can be found in the [Alpine wiki](https://wiki.alpinelinux.org/wiki/Setting_the_timezone). The following command will output the local time each minute for a container working in Iran's timezone:
 ```sh
 docker run --rm --tty --interactive --env "TIME_ZONE=Iran" --env "TIME_SPEC=* * * * *" --env "DUMP_COMMAND=date" --env "OUTPUT_COMMAND=cat -" bigtruedata/dump
 ```
