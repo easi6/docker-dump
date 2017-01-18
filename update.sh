@@ -3,6 +3,7 @@
 set -eo pipefail
 
 declare -a versions=(
+  edge
   3.5
   3.4
   3.3
