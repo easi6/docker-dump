@@ -1,0 +1,50 @@
+#!/bin/bash
+# Entrypoint script to schedule the execution of a generic dump command.
+# Copyright (C) 2017 BigTrueData
+
+set -e
+
+if [ -z "$DUMP_COMMAND" ]; then
+  echo "Required environment variable DUMP_COMMAND not found"
+  exit
+fi
+
+trap exit SIGINT
+trap exit SIGTERM
+
+build_time_spec() {
+  local default_time_spec="0 0 * * *"
+
+  TIME_SPEC=${TIME_SPEC:-$default_time_spec}
+}
+
+build_output_command() {
+  local timestamp="\`date +%Y%m%d%H%M\`"
+  local output_file="output-$timestamp.dump"
+  local default_output_command="cat - > /dump/$output_file"
+
+  OUTPUT_COMMAND=${OUTPUT_COMMAND:-$default_output_command}
+}
+
+build_cipher_command() {
+  if [ -n "$CIPHER_ALGORITHM" ]; then
+    if [ -z "$CIPHER_PASSWORD" ]; then
+      echo "The value of CIPHER_PASSWORD must be set if enc"
+      exit
+    fi
+
+    CIPHER_COMMAND="| openssl $CIPHER_ALGORITHM -k $CIPHER_PASSWORD"
+  fi
+}
+
+build_time_spec
+build_output_command
+build_cipher_command
+
+if [ -n "$TIME_ZONE" ]; then
+  export TIME_ZONE
+fi
+
+export CRON_ENTRY="$TIME_SPEC $DUMP_COMMAND $CIPHER_COMMAND | $OUTPUT_COMMAND"
+
+cron-entrypoint
